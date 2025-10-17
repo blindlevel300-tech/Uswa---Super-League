@@ -1,0 +1,2812 @@
+<!DOCTYPE html>
+<html lang="en" class=""><head><script>window.livecodes = window.livecodes || {};</script><title>Untitled Project</title><meta name="title" content="Untitled Project"><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0"><style id="__livecodes_styles__"></style><script src="https://cdn.jsdelivr.net/npm/es-module-shims@1.10.0/dist/es-module-shims.js" async=""></script><script type="importmap">{
+  "imports": {}
+}</script></head><body>
+
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>USL League Manager - Professional Football Management System</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #1e40af;
+            --secondary-color: #f59e0b;
+            --success-color: #10b981;
+            --danger-color: #ef4444;
+            --warning-color: #f97316;
+            --dark-color: #1f2937;
+            --light-color: #f3f4f6;
+            --admin-color: #7c3aed;
+            --guest-color: #3b82f6;
+            --bg-gradient: linear-gradient(135deg, #1e3a8a 0%, #3730a3 50%, #4c1d95 100%);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--bg-gradient);
+            min-height: 100vh;
+            color: var(--dark-color);
+        }
+        
+        /* Login Page Styles */
+        .login-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background: url('https://images.unsplash.com/photo-1517466787929-bc90951d0974?w=1920&h=1080&fit=crop') center/cover;
+            position: relative;
+        }
+        
+        .login-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(30, 58, 138, 0.85);
+        }
+        
+        .login-card {
+            background: white;
+            border-radius: 25px;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            width: 100%;
+            max-width: 1200px;
+            display: flex;
+            min-height: 700px;
+            animation: slideUp 0.6s ease-out;
+            position: relative;
+            z-index: 1;
+        }
+        
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .login-left {
+            background: linear-gradient(135deg, var(--primary-color), #1e40af);
+            color: white;
+            padding: 60px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            flex: 1;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .login-left::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.05) 0%, transparent 70%);
+            animation: rotate 40s linear infinite;
+        }
+        
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        .login-right {
+            padding: 60px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            background: #fafafa;
+        }
+        
+        .login-logo {
+            font-size: 5rem;
+            margin-bottom: 25px;
+            color: var(--secondary-color);
+            animation: bounce 2s infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-15px); }
+            60% { transform: translateY(-7px); }
+        }
+        
+        .login-title {
+            font-size: 2.8rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+            background: linear-gradient(45deg, #fff, #f0f0f0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .login-subtitle {
+            font-size: 1.3rem;
+            opacity: 0.9;
+            margin-bottom: 35px;
+        }
+        
+        .user-type-selector {
+            display: flex;
+            margin-bottom: 35px;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+        
+        .user-type-btn {
+            flex: 1;
+            padding: 20px;
+            border: none;
+            background: white;
+            color: var(--dark-color);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 1.1rem;
+        }
+        
+        .user-type-btn.active {
+            background: var(--primary-color);
+            color: white;
+            transform: scale(1.05);
+        }
+        
+        .user-type-btn:hover:not(.active) {
+            background: #f1f5f9;
+        }
+        
+        .form-floating {
+            margin-bottom: 25px;
+        }
+        
+        .form-control {
+            border-radius: 12px;
+            border: 2px solid #e2e8f0;
+            padding: 15px;
+            transition: all 0.3s;
+            font-size: 1rem;
+        }
+        
+        .form-control:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 4px rgba(30, 64, 175, 0.15);
+        }
+        
+        .btn-login {
+            background: linear-gradient(135deg, var(--primary-color), #1e40af);
+            color: white;
+            border: none;
+            padding: 18px;
+            border-radius: 12px;
+            font-weight: 600;
+            width: 100%;
+            transition: all 0.3s;
+            font-size: 1.2rem;
+            letter-spacing: 0.5px;
+        }
+        
+        .btn-login:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 20px 40px rgba(30, 64, 175, 0.4);
+        }
+        
+        .login-info {
+            background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+            border-radius: 15px;
+            padding: 25px;
+            margin-top: 30px;
+            border: 1px solid #bae6fd;
+        }
+        
+        .login-info h6 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+        
+        /* Main App Styles */
+        .main-app {
+            display: none;
+        }
+        
+        .navbar {
+            background: linear-gradient(135deg, var(--primary-color), #1e40af);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            padding: 15px 0;
+        }
+        
+        .navbar-brand {
+            font-weight: bold;
+            font-size: 2rem;
+            color: white !important;
+            display: flex;
+            align-items: center;
+        }
+        
+        .navbar-brand i {
+            margin-right: 15px;
+            color: var(--secondary-color);
+            font-size: 2.2rem;
+        }
+        
+        .nav-link {
+            color: rgba(255, 255, 255, 0.9) !important;
+            transition: all 0.3s;
+            font-weight: 500;
+            padding: 12px 18px !important;
+            border-radius: 10px;
+            margin: 0 5px;
+            font-size: 1rem;
+        }
+        
+        .nav-link:hover, .nav-link.active {
+            color: white !important;
+            background-color: rgba(255, 255, 255, 0.15);
+        }
+        
+        .user-badge {
+            background: linear-gradient(135deg, var(--admin-color), #8b5cf6);
+            color: white;
+            padding: 8px 18px;
+            border-radius: 25px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-left: 12px;
+            box-shadow: 0 6px 15px rgba(124, 58, 237, 0.4);
+        }
+        
+        .user-badge.guest {
+            background: linear-gradient(135deg, var(--guest-color), #60a5fa);
+            box-shadow: 0 6px 15px rgba(59, 130, 246, 0.4);
+        }
+        
+        .section {
+            padding: 40px 0;
+            display: none;
+        }
+        
+        .section.active {
+            display: block;
+            animation: fadeIn 0.6s ease-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .main-container {
+            background-color: white;
+            border-radius: 25px;
+            padding: 50px;
+            margin: 40px auto;
+            max-width: 1600px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.1);
+        }
+        
+        .card {
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            border: none;
+            overflow: hidden;
+            transition: all 0.3s;
+            margin-bottom: 30px;
+        }
+        
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+        
+        .card-header {
+            background: linear-gradient(135deg, var(--primary-color), #1e40af);
+            color: white;
+            font-weight: 600;
+            border: none;
+            padding: 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .group-stage-container {
+            background: white;
+            border-radius: 25px;
+            padding: 50px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+        }
+        
+        .group-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 40px;
+            margin-top: 40px;
+        }
+        
+        .group-box {
+            background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+            border: 2px solid #e2e8f0;
+            border-radius: 20px;
+            padding: 30px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+        
+        .group-box:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+        }
+        
+        .group-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 8px;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+        }
+        
+        .group-title {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 30px;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+        
+        .team-slot {
+            display: flex;
+            align-items: center;
+            padding: 20px;
+            margin-bottom: 15px;
+            background: white;
+            border-radius: 15px;
+            border: 1px solid #e2e8f0;
+            transition: all 0.3s;
+        }
+        
+        .team-slot:hover {
+            background: #f8fafc;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            transform: translateX(8px);
+        }
+        
+        .team-flag {
+            width: 60px;
+            height: 40px;
+            margin-right: 20px;
+            border-radius: 10px;
+            object-fit: cover;
+            border: 2px solid #e2e8f0;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .team-name {
+            font-weight: 700;
+            font-size: 1.2rem;
+            flex-grow: 1;
+        }
+        
+        .team-actions {
+            display: flex;
+            gap: 12px;
+        }
+        
+        .btn-icon {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 1.1rem;
+        }
+        
+        .btn-edit {
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+            color: white;
+        }
+        
+        .btn-edit:hover {
+            transform: scale(1.15);
+            box-shadow: 0 8px 16px rgba(59, 130, 246, 0.4);
+        }
+        
+        .btn-delete {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: white;
+        }
+        
+        .btn-delete:hover {
+            transform: scale(1.15);
+            box-shadow: 0 8px 16px rgba(239, 68, 68, 0.4);
+        }
+        
+        .btn-add {
+            background: linear-gradient(135deg, var(--success-color), #059669);
+            color: white;
+        }
+        
+        .btn-add:hover {
+            transform: scale(1.15);
+            box-shadow: 0 8px 16px rgba(16, 185, 129, 0.4);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-color), #1e40af);
+            border: none;
+            padding: 15px 30px;
+            font-weight: 600;
+            transition: all 0.3s;
+            border-radius: 12px;
+            font-size: 1rem;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(30, 64, 175, 0.4);
+        }
+        
+        .btn-success {
+            background: linear-gradient(135deg, var(--success-color), #059669);
+            border: none;
+            padding: 15px 30px;
+            font-weight: 600;
+            transition: all 0.3s;
+            border-radius: 12px;
+            font-size: 1rem;
+        }
+        
+        .btn-success:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(16, 185, 129, 0.4);
+        }
+        
+        .team-image {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 20px;
+            margin-bottom: 25px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        .team-room-container {
+            max-width: 1400px;
+            margin: 50px auto;
+            padding: 50px;
+            background: white;
+            border-radius: 25px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.12);
+        }
+        
+        .team-room-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+            padding-bottom: 25px;
+            border-bottom: 2px solid #e2e8f0;
+        }
+        
+        .team-room-title {
+            font-size: 2.5rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, var(--primary-color), #1e40af);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .team-room-nav {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 35px;
+            border-bottom: 2px solid #e2e8f0;
+        }
+        
+        .team-room-nav button {
+            padding: 15px 30px;
+            border-radius: 12px 12px 0 0;
+            border: none;
+            background: #f1f5f9;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+            color: var(--dark-color);
+            font-size: 1rem;
+        }
+        
+        .team-room-nav button.active {
+            background: linear-gradient(135deg, var(--primary-color), #1e40af);
+            color: white;
+            transform: translateY(-3px);
+        }
+        
+        .team-room-section {
+            display: none;
+            padding: 30px 0;
+        }
+        
+        .team-room-section.active {
+            display: block;
+            animation: fadeIn 0.6s ease-out;
+        }
+        
+        .player-card {
+            display: flex;
+            align-items: center;
+            padding: 25px;
+            border-radius: 20px;
+            background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+            margin-bottom: 20px;
+            transition: all 0.3s;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .player-card:hover {
+            background: white;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+            transform: translateY(-5px);
+        }
+        
+        .player-number {
+            background: linear-gradient(135deg, var(--primary-color), #1e40af);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.3rem;
+            margin-right: 25px;
+            box-shadow: 0 8px 16px rgba(30, 64, 175, 0.4);
+        }
+        
+        .player-avatar {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--secondary-color), #f59e0b);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.8rem;
+            margin-right: 25px;
+            box-shadow: 0 8px 16px rgba(245, 158, 11, 0.4);
+        }
+        
+        .player-info {
+            flex-grow: 1;
+        }
+        
+        .player-name {
+            font-weight: 700;
+            font-size: 1.3rem;
+            margin-bottom: 8px;
+            color: var(--dark-color);
+        }
+        
+        .player-details {
+            color: #64748b;
+            font-size: 1rem;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(8px);
+        }
+        
+        .modal.show {
+            display: flex;
+            animation: fadeIn 0.4s ease-out;
+        }
+        
+        .modal-content {
+            background: white;
+            border-radius: 25px;
+            padding: 50px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.3);
+            animation: slideUp 0.4s ease-out;
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        
+        .modal-title {
+            font-size: 2rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, var(--primary-color), #1e40af);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 2rem;
+            cursor: pointer;
+            color: #64748b;
+            transition: all 0.3s;
+        }
+        
+        .modal-close:hover {
+            color: var(--danger-color);
+            transform: rotate(90deg);
+        }
+        
+        .notification {
+            position: fixed;
+            top: 40px;
+            right: 40px;
+            padding: 20px 30px;
+            border-radius: 15px;
+            background: white;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+            z-index: 2000;
+            display: none;
+            align-items: center;
+            animation: slideInRight 0.4s ease-out;
+            max-width: 450px;
+        }
+        
+        @keyframes slideInRight {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        
+        .notification.success {
+            border-left: 6px solid var(--success-color);
+        }
+        
+        .notification.error {
+            border-left: 6px solid var(--danger-color);
+        }
+        
+        .notification.info {
+            border-left: 6px solid var(--primary-color);
+        }
+        
+        .notification-icon {
+            margin-right: 20px;
+            font-size: 1.8rem;
+        }
+        
+        .notification.success .notification-icon {
+            color: var(--success-color);
+        }
+        
+        .notification.error .notification-icon {
+            color: var(--danger-color);
+        }
+        
+        .notification.info .notification-icon {
+            color: var(--primary-color);
+        }
+        
+        .notification-message {
+            flex-grow: 1;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+        
+        .notification-close {
+            background: none;
+            border: none;
+            color: #64748b;
+            cursor: pointer;
+            font-size: 1.4rem;
+            transition: all 0.3s;
+        }
+        
+        .notification-close:hover {
+            color: var(--dark-color);
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .stat-card {
+            padding: 30px;
+            border-radius: 20px;
+            background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+            text-align: center;
+            border: 1px solid #e2e8f0;
+            transition: all 0.3s;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .stat-value {
+            font-size: 3rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, var(--primary-color), #1e40af);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+        
+        .stat-label {
+            font-size: 1.1rem;
+            color: #64748b;
+            font-weight: 600;
+        }
+        
+        .match-card {
+            padding: 30px;
+            border-radius: 20px;
+            background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+            margin-bottom: 25px;
+            border: 1px solid #e2e8f0;
+            transition: all 0.3s;
+        }
+        
+        .match-card:hover {
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .match-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+        
+        .match-teams {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 40px;
+        }
+        
+        .match-team {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .match-team-logo {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+        }
+        
+        .match-score {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+            font-size: 2rem;
+            font-weight: bold;
+        }
+        
+        .score-input {
+            width: 80px;
+            text-align: center;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 10px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        
+        .score-input:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 4px rgba(30, 64, 175, 0.15);
+        }
+        
+        .jersey-display {
+            width: 180px;
+            height: 220px;
+            margin: 0 auto 30px;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            border: 2px solid #e2e8f0;
+            border-radius: 20px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        .password-info {
+            background: linear-gradient(135deg, #fef3c7, #fed7aa);
+            border: 2px solid #f59e0b;
+            border-radius: 20px;
+            padding: 30px;
+            margin-top: 30px;
+        }
+        
+        .password-info h5 {
+            color: #92400e;
+            margin-bottom: 20px;
+            font-weight: 700;
+            font-size: 1.3rem;
+        }
+        
+        .password-list {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .password-list li {
+            padding: 10px 0;
+            color: #78350f;
+            font-weight: 500;
+            font-size: 1rem;
+        }
+        
+        .password-list strong {
+            color: #451a03;
+        }
+        
+        .restricted {
+            opacity: 0.5;
+            pointer-events: none;
+        }
+        
+        .guest-notice {
+            background: linear-gradient(135deg, #dbeafe, #bfdbfe);
+            border: 2px solid #3b82f6;
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 30px;
+            color: #1e40af;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            font-size: 1.1rem;
+        }
+        
+        .guest-notice i {
+            font-size: 2rem;
+        }
+        
+        .player-form {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+        }
+        
+        .logout-btn {
+            position: fixed;
+            top: 40px;
+            right: 40px;
+            background: linear-gradient(135deg, var(--danger-color), #dc2626);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            z-index: 1000;
+            box-shadow: 0 10px 20px rgba(239, 68, 68, 0.4);
+            font-size: 1rem;
+        }
+        
+        .logout-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(239, 68, 68, 0.5);
+        }
+        
+        .team-select-card {
+            background: white;
+            border-radius: 25px;
+            padding: 50px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+            max-width: 600px;
+            margin: 60px auto;
+        }
+        
+        .team-select-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .team-select-header h2 {
+            color: var(--primary-color);
+            font-weight: bold;
+            margin-bottom: 15px;
+            font-size: 2.2rem;
+        }
+        
+        .fade-out {
+            animation: fadeOut 0.5s ease-out forwards;
+        }
+        
+        @keyframes fadeOut {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+        
+        .tournament-bracket {
+            background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+            border-radius: 20px;
+            padding: 40px;
+            margin-top: 40px;
+            border: 2px solid #e2e8f0;
+        }
+        
+        .bracket-title {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .bracket-round {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 40px;
+        }
+        
+        .bracket-match {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            min-width: 200px;
+            text-align: center;
+        }
+        
+        .knockout-stage {
+            background: linear-gradient(135deg, #fef3c7, #fed7aa);
+            border-radius: 20px;
+            padding: 40px;
+            margin-top: 40px;
+            border: 2px solid #f59e0b;
+        }
+        
+        .knockout-title {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #92400e;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .stadium-info {
+            background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+            border-radius: 20px;
+            padding: 30px;
+            margin-top: 30px;
+            border: 2px solid var(--success-color);
+        }
+        
+        .stadium-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--success-color);
+            margin-bottom: 20px;
+        }
+        
+        .stadium-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
+        .stadium-card {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .stadium-name {
+            font-weight: bold;
+            color: var(--dark-color);
+            margin-bottom: 10px;
+        }
+        
+        .stadium-capacity {
+            color: #64748b;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            .login-card {
+                flex-direction: column;
+                max-width: 500px;
+            }
+            
+            .login-left {
+                padding: 50px 40px;
+            }
+            
+            .player-form {
+                grid-template-columns: 1fr;
+            }
+            
+            .group-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .match-teams {
+                flex-direction: column;
+                gap: 25px;
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .bracket-round {
+                flex-direction: column;
+                gap: 20px;
+            }
+        }
+    </style>
+
+
+    <!-- Login Page -->
+    <div class="login-container" id="loginPage">
+        <div class="login-card">
+            <div class="login-left">
+                <i class="fas fa-futbol login-logo"></i>
+                <h1 class="login-title">USL League Manager</h1>
+                <p class="login-subtitle">Professional Football Management System</p>
+                <p style="opacity: 0.8; font-size: 1.1rem;">Manage teams, players, matches, and tournaments with our comprehensive league management platform.</p>
+                <div class="mt-5">
+                    <i class="fas fa-trophy fa-5x mb-4"></i>
+                    <p style="opacity: 0.9; font-size: 1.1rem;">World Cup Style Tournament Management</p>
+                </div>
+            </div>
+            <div class="login-right">
+                <h2 class="mb-4 text-center">Sign In</h2>
+                
+                <div class="user-type-selector">
+                    <button class="user-type-btn active" id="adminBtn" onclick="selectUserType('admin')">
+                        <i class="fas fa-user-shield me-2"></i>Admin
+                    </button>
+                    <button class="user-type-btn" id="guestBtn" onclick="selectUserType('guest')">
+                        <i class="fas fa-user me-2"></i>Guest
+                    </button>
+                </div>
+                
+                <form id="loginForm">
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" id="username" placeholder="Username" required="">
+                        <label for="username">Username</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="password" class="form-control" id="password" placeholder="Password" required="">
+                        <label for="password">Password</label>
+                    </div>
+                    <button type="submit" class="btn-login">
+                        <i class="fas fa-sign-in-alt me-2"></i>Sign In
+                    </button>
+                </form>
+                
+                <div class="login-info">
+                    <h6><i class="fas fa-info-circle me-2"></i>Login Information</h6>
+                    <div id="adminInfo">
+                        <p><strong>Admin Access:</strong> Full control to manage everything</p>
+                        <p>Username: <strong>admin</strong></p>
+                        <p>Password: <strong>admin123</strong></p>
+                    </div>
+                    <div id="guestInfo" style="display: none;">
+                        <p><strong>Guest Access:</strong> View-only mode</p>
+                        <p>Username: <strong>guest</strong></p>
+                        <p>Password: <strong>guest123</strong></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main App -->
+    <div class="main-app" id="mainApp">
+        <!-- Navigation -->
+        <nav class="navbar navbar-expand-lg navbar-dark">
+            <div class="container">
+                <a class="navbar-brand" href="#">
+                    <i class="fas fa-futbol"></i>
+                    USL League Manager
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#" data-section="dashboard">
+                                <i class="fas fa-home me-2"></i>Dashboard
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" data-section="groups">
+                                <i class="fas fa-th me-2"></i>Groups
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" data-section="teams">
+                                <i class="fas fa-users me-2"></i>Teams
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" data-section="schedule">
+                                <i class="fas fa-calendar-alt me-2"></i>Schedule
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" data-section="knockout">
+                                <i class="fas fa-trophy me-2"></i>Knockout
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" data-section="stadiums">
+                                <i class="fas fa-building me-2"></i>Stadiums
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" data-section="team-room">
+                                <i class="fas fa-lock me-2"></i>Team Room
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <span class="nav-link">
+                                <i class="fas fa-user me-2"></i>
+                                <span id="currentUser">Admin</span>
+                                <span class="user-badge" id="userBadge">ADMIN</span>
+                            </span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Notification -->
+        <div class="notification" id="notification">
+            <div class="notification-icon">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <div class="notification-message"></div>
+            <button class="notification-close">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+
+        <!-- Main Content -->
+        <div class="container">
+            <!-- Dashboard Section -->
+            <section id="dashboard" class="section active">
+                <div class="main-container">
+                    <h2 class="mb-4">League Dashboard</h2>
+                    
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-value" id="totalTeams">12</div>
+                            <div class="stat-label">Total Teams</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value" id="totalGroups">4</div>
+                            <div class="stat-label">Groups</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value" id="totalMatches">0</div>
+                            <div class="stat-label">Total Matches</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value" id="totalPlayers">0</div>
+                            <div class="stat-label">Total Players</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value" id="totalStadiums">6</div>
+                            <div class="stat-label">Stadiums</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value" id="tournamentPhase">Group</div>
+                            <div class="stat-label">Tournament Phase</div>
+                        </div>
+                    </div>
+                    
+                    <div class="card admin-only">
+                        <div class="card-header">
+                            <h5><i class="fas fa-cog me-2"></i>Quick Actions</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-2 mb-3">
+                                    <button class="btn btn-primary w-100" onclick="showAddTeamModal()">
+                                        <i class="fas fa-plus me-2"></i>Add Team
+                                    </button>
+                                </div>
+                                <div class="col-md-2 mb-3">
+                                    <button class="btn btn-success w-100" onclick="generateSchedule()">
+                                        <i class="fas fa-calendar me-2"></i>Generate Schedule
+                                    </button>
+                                </div>
+                                <div class="col-md-2 mb-3">
+                                    <button class="btn btn-warning w-100" onclick="startKnockoutStage()">
+                                        <i class="fas fa-trophy me-2"></i>Start Knockout
+                                    </button>
+                                </div>
+                                <div class="col-md-2 mb-3">
+                                    <button class="btn btn-info w-100" onclick="generateGroups()">
+                                        <i class="fas fa-random me-2"></i>Auto Groups
+                                    </button>
+                                </div>
+                                <div class="col-md-2 mb-3">
+                                    <button class="btn btn-warning w-100" onclick="resetGroups()">
+                                        <i class="fas fa-redo me-2"></i>Reset Groups
+                                    </button>
+                                </div>
+                                <div class="col-md-2 mb-3">
+                                    <button class="btn btn-danger w-100" onclick="clearAllData()">
+                                        <i class="fas fa-trash me-2"></i>Clear All
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="password-info admin-only">
+                        <h5><i class="fas fa-key me-2"></i>Team Room Passwords</h5>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <ul class="password-list">
+                                    <li><strong>FORSA KOCHI:</strong> forsa123</li>
+                                    <li><strong>MALAPPURAM FC:</strong> malappuram123</li>
+                                    <li><strong>CALICUT FC:</strong> calicut123</li>
+                                </ul>
+                            </div>
+                            <div class="col-md-4">
+                                <ul class="password-list">
+                                    <li><strong>TIRUVANTHRAM KOMBANS:</strong> tiruvanthram123</li>
+                                    <li><strong>THRISSUR FC:</strong> thrissur123</li>
+                                    <li><strong>KANNUR FC:</strong> kannur123</li>
+                                </ul>
+                            </div>
+                            <div class="col-md-4">
+                                <ul class="password-list">
+                                    <li><strong>KOZHIKODE WARRIORS:</strong> kozhikode123</li>
+                                    <li><strong>PALAKKAD UNITED:</strong> palakkad123</li>
+                                    <li><strong>ERNAKULAM FC:</strong> ernakulam123</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Groups Section -->
+            <section id="groups" class="section">
+                <div class="main-container">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h2>Group Stage - World Cup Format</h2>
+                        <div class="admin-only">
+                            <button class="btn btn-primary" onclick="showAddGroupModal()">
+                                <i class="fas fa-plus me-2"></i>Add Group
+                            </button>
+                            <button class="btn btn-success ms-2" onclick="saveGroups()">
+                                <i class="fas fa-save me-2"></i>Save Groups
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="guest-notice guest-only">
+                        <i class="fas fa-info-circle"></i>
+                        <span>You are viewing as a guest. Some features are restricted.</span>
+                    </div>
+                    
+                    <div class="group-stage-container">
+                        <div class="group-grid" id="groupGrid">
+                            <!-- Groups will be dynamically added here -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Teams Section -->
+            <section id="teams" class="section">
+                <div class="main-container">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h2>Teams Management</h2>
+                        <button class="btn btn-primary admin-only" onclick="showAddTeamModal()">
+                            <i class="fas fa-plus me-2"></i>Add New Team
+                        </button>
+                    </div>
+                    
+                    <div class="guest-notice guest-only">
+                        <i class="fas fa-info-circle"></i>
+                        <span>You are viewing as a guest. Some features are restricted.</span>
+                    </div>
+                    
+                    <div class="row" id="teamsGrid">
+                        <!-- Teams will be dynamically added here -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- Schedule Section -->
+            <section id="schedule" class="section">
+                <div class="main-container">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h2>Match Schedule</h2>
+                        <div class="admin-only">
+                            <button class="btn btn-success" onclick="saveSchedule()">
+                                <i class="fas fa-save me-2"></i>Save Schedule
+                            </button>
+                            <button class="btn btn-warning ms-2" onclick="generateSchedule()">
+                                <i class="fas fa-sync me-2"></i>Regenerate
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="guest-notice guest-only">
+                        <i class="fas fa-info-circle"></i>
+                        <span>You are viewing as a guest. Some features are restricted.</span>
+                    </div>
+                    
+                    <div id="scheduleContainer">
+                        <!-- Schedule will be dynamically added here -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- Knockout Section -->
+            <section id="knockout" class="section">
+                <div class="main-container">
+                    <h2 class="mb-4">Knockout Stage</h2>
+                    
+                    <div class="guest-notice guest-only">
+                        <i class="fas fa-info-circle"></i>
+                        <span>You are viewing as a guest. Some features are restricted.</span>
+                    </div>
+                    
+                    <div class="knockout-stage">
+                        <div class="knockout-title">
+                            <i class="fas fa-trophy me-3"></i>Tournament Bracket
+                        </div>
+                        <div id="knockoutBracket">
+                            <!-- Knockout bracket will be dynamically added here -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Stadiums Section -->
+            <section id="stadiums" class="section">
+                <div class="main-container">
+                    <h2 class="mb-4">Stadiums</h2>
+                    
+                    <div class="guest-notice guest-only">
+                        <i class="fas fa-info-circle"></i>
+                        <span>You are viewing as a guest. Some features are restricted.</span>
+                    </div>
+                    
+                    <div class="stadium-info">
+                        <div class="stadium-title">
+                            <i class="fas fa-building me-2"></i>Tournament Venues
+                        </div>
+                        <div class="stadium-grid" id="stadiumsGrid">
+                            <!-- Stadiums will be dynamically added here -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Team Room Section -->
+            <section id="team-room" class="section">
+                <div class="team-room-container">
+                    <div class="team-select-card" id="teamLoginForm">
+                        <div class="team-select-header">
+                            <h2>Team Room Login</h2>
+                            <p>Select your team and enter password to access</p>
+                        </div>
+                        <form id="teamRoomLoginForm">
+                            <div class="form-floating mb-3">
+                                <select class="form-control" id="teamSelect" required="">
+                                    <option value="">Choose your team</option>
+                                </select>
+                                <label for="teamSelect">Select Team</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input type="password" class="form-control" id="teamPassword" placeholder="Password" required="">
+                                <label for="teamPassword">Password</label>
+                            </div>
+                            <button type="submit" class="btn-login w-100">
+                                <i class="fas fa-sign-in-alt me-2"></i>Enter Team Room
+                            </button>
+                        </form>
+                    </div>
+                    
+                    <div class="team-room-content" id="teamRoomContent" style="display: none;">
+                        <div class="team-room-header">
+                            <div class="team-room-title" id="teamRoomTitle">Team Room</div>
+                            <button class="btn btn-outline-danger" onclick="logoutTeamRoom()">
+                                <i class="fas fa-sign-out-alt me-2"></i>Logout
+                            </button>
+                        </div>
+                        
+                        <div class="team-room-nav">
+                            <button class="active" onclick="showTeamRoomTab('players')">
+                                <i class="fas fa-users me-2"></i>Players
+                            </button>
+                            <button onclick="showTeamRoomTab('jersey')">
+                                <i class="fas fa-tshirt me-2"></i>Jersey
+                            </button>
+                            <button onclick="showTeamRoomTab('fixtures')">
+                                <i class="fas fa-calendar me-2"></i>Fixtures
+                            </button>
+                            <button onclick="showTeamRoomTab('stats')">
+                                <i class="fas fa-chart-bar me-2"></i>Stats
+                            </button>
+                            <button onclick="showTeamRoomTab('training')">
+                                <i class="fas fa-dumbbell me-2"></i>Training
+                            </button>
+                        </div>
+                        
+                        <div class="team-room-section active" id="players">
+                            <h4 class="mb-4">Team Players</h4>
+                            <div id="playersList">
+                                <!-- Players will be dynamically added here -->
+                            </div>
+                            <button class="btn btn-primary mt-3 admin-only" onclick="showAddPlayerModal()">
+                                <i class="fas fa-plus me-2"></i>Add Player
+                            </button>
+                        </div>
+                        
+                        <div class="team-room-section" id="jersey">
+                            <h4 class="mb-4">Team Jersey</h4>
+                            <div class="text-center">
+                                <div class="jersey-display" id="jerseyDisplay"></div>
+                                <div class="mb-3 admin-only">
+                                    <label class="form-label">Jersey Image URL</label>
+                                    <input type="text" class="form-control" id="jerseyUrl" placeholder="Enter jersey image URL">
+                                </div>
+                                <button class="btn btn-primary admin-only" onclick="updateJersey()">
+                                    <i class="fas fa-upload me-2"></i>Update Jersey
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="team-room-section" id="fixtures">
+                            <h4 class="mb-4">Team Fixtures</h4>
+                            <div id="teamFixtures">
+                                <!-- Fixtures will be dynamically added here -->
+                            </div>
+                        </div>
+                        
+                        <div class="team-room-section" id="stats">
+                            <h4 class="mb-4">Team Statistics</h4>
+                            <div class="stats-grid">
+                                <div class="stat-card">
+                                    <div class="stat-value" id="teamWins">0</div>
+                                    <div class="stat-label">Wins</div>
+                                </div>
+                                <div class="stat-card">
+                                    <div class="stat-value" id="teamDraws">0</div>
+                                    <div class="stat-label">Draws</div>
+                                </div>
+                                <div class="stat-card">
+                                    <div class="stat-value" id="teamLosses">0</div>
+                                    <div class="stat-label">Losses</div>
+                                </div>
+                                <div class="stat-card">
+                                    <div class="stat-value" id="teamPoints">0</div>
+                                    <div class="stat-label">Points</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="team-room-section" id="training">
+                            <h4 class="mb-4">Training Schedule</h4>
+                            <div class="card">
+                                <div class="card-body">
+                                    <h6>Next Training Session</h6>
+                                    <p><i class="fas fa-calendar me-2"></i>Tomorrow at 6:00 PM</p>
+                                    <p><i class="fas fa-map-marker-alt me-2"></i>Main Stadium</p>
+                                    <p><i class="fas fa-user me-2"></i>Coach: John Smith</p>
+                                    <hr>
+                                    <h6>Training Focus</h6>
+                                    <ul>
+                                        <li>Passing Drills</li>
+                                        <li>Shooting Practice</li>
+                                        <li>Tactical Formation</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+    
+    <button class="logout-btn" onclick="logout()" style="display: none;" id="logoutBtn">
+        <i class="fas fa-sign-out-alt me-2"></i>Logout
+    </button>
+
+    <!-- Modals -->
+    <div class="modal" id="addTeamModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Add New Team</h3>
+                <button class="modal-close" onclick="closeModal('addTeamModal')">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form id="addTeamForm">
+                <div class="mb-3">
+                    <label class="form-label">Team Name</label>
+                    <input type="text" class="form-control" id="newTeamName" required="">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Team Image URL</label>
+                    <input type="text" class="form-control" id="newTeamImage" placeholder="Enter team image URL">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Jersey URL</label>
+                    <input type="text" class="form-control" id="newTeamJersey" placeholder="Enter jersey image URL">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Team Password</label>
+                    <input type="text" class="form-control" id="newTeamPassword" required="">
+                </div>
+                <button type="submit" class="btn btn-primary w-100">
+                    <i class="fas fa-plus me-2"></i>Add Team
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <div class="modal" id="editTeamModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Edit Team</h3>
+                <button class="modal-close" onclick="closeModal('editTeamModal')">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form id="editTeamForm">
+                <input type="hidden" id="editTeamId">
+                <div class="mb-3">
+                    <label class="form-label">Team Name</label>
+                    <input type="text" class="form-control" id="editTeamName" required="">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Team Image URL</label>
+                    <input type="text" class="form-control" id="editTeamImage">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Jersey URL</label>
+                    <input type="text" class="form-control" id="editTeamJersey">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Team Password</label>
+                    <input type="text" class="form-control" id="editTeamPassword">
+                </div>
+                <button type="submit" class="btn btn-primary w-100">
+                    <i class="fas fa-save me-2"></i>Update Team
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <div class="modal" id="addPlayerModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Add Player</h3>
+                <button class="modal-close" onclick="closeModal('addPlayerModal')">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form id="addPlayerForm">
+                <div class="player-form">
+                    <div class="mb-3">
+                        <label class="form-label">Player Name</label>
+                        <input type="text" class="form-control" id="newPlayerName" required="">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Jersey Number</label>
+                        <input type="number" class="form-control" id="newPlayerNumber" min="1" max="99" required="">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Age</label>
+                        <input type="number" class="form-control" id="newPlayerAge" min="16" max="50" required="">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Position</label>
+                        <select class="form-control" id="newPlayerPosition">
+                            <option value="Goalkeeper">Goalkeeper</option>
+                            <option value="Defender">Defender</option>
+                            <option value="Midfielder">Midfielder</option>
+                            <option value="Forward">Forward</option>
+                        </select>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary w-100">
+                    <i class="fas fa-plus me-2"></i>Add Player
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // App State
+        let appState = {
+            currentUser: null,
+            userType: null,
+            leagueData: {
+                teams: [
+                    { 
+                        id: 1, 
+                        name: 'FORSA KOCHI', 
+                        image: 'https://images.unsplash.com/photo-1517466787929-bc90951d0974?w=400&h=300&fit=crop&auto=format', 
+                        jersey: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=150&h=180&fit=crop&auto=format', 
+                        password: 'forsa123', 
+                        players: [
+                            { name: 'Rahul Kumar', number: 10, age: 24, position: 'Forward' },
+                            { name: 'Arjun Nair', number: 1, age: 28, position: 'Goalkeeper' },
+                            { name: 'Vikram Singh', number: 7, age: 26, position: 'Midfielder' }
+                        ]
+                    },
+                    { 
+                        id: 2, 
+                        name: 'MALAPPURAM FC', 
+                        image: 'https://images.unsplash.com/photo-1518611012118-696072aa579a?w=400&h=300&fit=crop&auto=format', 
+                        jersey: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=150&h=180&fit=crop&auto=format', 
+                        password: 'malappuram123', 
+                        players: [
+                            { name: 'Fahad Hassan', number: 9, age: 27, position: 'Forward' },
+                            { name: 'Muhammad Rizwan', number: 12, age: 25, position: 'Defender' }
+                        ]
+                    },
+                    { 
+                        id: 3, 
+                        name: 'CALICUT FC', 
+                        image: 'https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0?w=400&h=300&fit=crop&auto=format', 
+                        jersey: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=150&h=180&fit=crop&auto=format', 
+                        password: 'calicut123', 
+                        players: [
+                            { name: 'Anand Pillai', number: 11, age: 23, position: 'Forward' },
+                            { name: 'Ramesh Kumar', number: 5, age: 29, position: 'Defender' }
+                        ]
+                    },
+                    { 
+                        id: 4, 
+                        name: 'TIRUVANTHRAM KOMBANS', 
+                        image: 'https://images.unsplash.com/photo-1604985898933-b48d2b9c6a1f?w=400&h=300&fit=crop&auto=format', 
+                        jersey: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=150&h=180&fit=crop&auto=format', 
+                        password: 'tiruvanthram123', 
+                        players: [
+                            { name: 'Suresh Babu', number: 8, age: 26, position: 'Midfielder' }
+                        ]
+                    },
+                    { 
+                        id: 5, 
+                        name: 'THRISSUR FC', 
+                        image: 'https://images.unsplash.com/photo-1517466787929-bc90951d0974?w=400&h=300&fit=crop&auto=format', 
+                        jersey: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=150&h=180&fit=crop&auto=format', 
+                        password: 'thrissur123', 
+                        players: [
+                            { name: 'Vinod Kumar', number: 3, age: 30, position: 'Defender' }
+                        ]
+                    },
+                    { 
+                        id: 6, 
+                        name: 'KANNUR FC', 
+                        image: 'https://images.unsplash.com/photo-1579952363873-27d3bf241c61?w=400&h=300&fit=crop&auto=format', 
+                        jersey: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=150&h=180&fit=crop&auto=format', 
+                        password: 'kannur123', 
+                        players: [
+                            { name: 'Pradeep Nair', number: 6, age: 28, position: 'Midfielder' }
+                        ]
+                    },
+                    { 
+                        id: 7, 
+                        name: 'KOZHIKODE WARRIORS', 
+                        image: 'https://images.unsplash.com/photo-1431324165629-0fd294c8bd8c?w=400&h=300&fit=crop&auto=format', 
+                        jersey: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=150&h=180&fit=crop&auto=format', 
+                        password: 'kozhikode123', 
+                        players: [
+                            { name: 'Mohanlal', number: 99, age: 35, position: 'Forward' }
+                        ]
+                    },
+                    { 
+                        id: 8, 
+                        name: 'PALAKKAD UNITED', 
+                        image: 'https://images.unsplash.com/photo-1461896836934-ffe607ba8211?w=400&h=300&fit=crop&auto=format', 
+                        jersey: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=150&h=180&fit=crop&auto=format', 
+                        password: 'palakkad123', 
+                        players: [
+                            { name: 'Mammootty', number: 88, age: 38, position: 'Forward' }
+                        ]
+                    },
+                    { 
+                        id: 9, 
+                        name: 'ERNAKULAM FC', 
+                        image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=300&fit=crop&auto=format', 
+                        jersey: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=150&h=180&fit=crop&auto=format', 
+                        password: 'ernakulam123', 
+                        players: [
+                            { name: 'Dileep', number: 77, age: 36, position: 'Midfielder' }
+                        ]
+                    },
+                    { 
+                        id: 10, 
+                        name: 'ALAPPUZHA FC', 
+                        image: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=300&fit=crop&auto=format', 
+                        jersey: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=150&h=180&fit=crop&auto=format', 
+                        password: 'alappuzha123', 
+                        players: [
+                            { name: 'Suresh Gopi', number: 66, age: 40, position: 'Defender' }
+                        ]
+                    },
+                    { 
+                        id: 11, 
+                        name: 'IDUKKI FC', 
+                        image: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=300&fit=crop&auto=format', 
+                        jersey: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=150&h=180&fit=crop&auto=format', 
+                        password: 'idukki123', 
+                        players: [
+                            { name: 'Jayaram', number: 55, age: 42, position: 'Forward' }
+                        ]
+                    },
+                    { 
+                        id: 12, 
+                        name: 'KOTTAYAM FC', 
+                        image: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=300&fit=crop&auto=format', 
+                        jersey: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=150&h=180&fit=crop&auto=format', 
+                        password: 'kottayam123', 
+                        players: [
+                            { name: 'Kunchacko Boban', number: 44, age: 32, position: 'Midfielder' }
+                        ]
+                    }
+                ],
+                groups: [
+                    { id: 'A', name: 'Group A', teams: [1, 2, 3] },
+                    { id: 'B', name: 'Group B', teams: [4, 5, 6] },
+                    { id: 'C', name: 'Group C', teams: [7, 8, 9] },
+                    { id: 'D', name: 'Group D', teams: [10, 11, 12] }
+                ],
+                matches: [],
+                knockoutStage: null,
+                stadiums: [
+                    { name: 'Jawaharlal Nehru Stadium', capacity: '60,000', city: 'Kochi' },
+                    { name: 'Calicut International Stadium', capacity: '55,000', city: 'Calicut' },
+                    { name: 'Thrissur Municipal Stadium', capacity: '30,000', city: 'Thrissur' },
+                    { name: 'Kannur University Stadium', capacity: '25,000', city: 'Kannur' },
+                    { name: 'EMS Stadium', capacity: '35,000', city: 'Kozhikode' },
+                    { name: 'Nehru Stadium', capacity: '40,000', city: 'Kottayam' }
+                ],
+                currentTeam: null
+            }
+        };
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeApp();
+        });
+
+        function initializeApp() {
+            // Login form handler
+            document.getElementById('loginForm').addEventListener('submit', handleLogin);
+            
+            // Team room login form
+            document.getElementById('teamRoomLoginForm').addEventListener('submit', handleTeamRoomLogin);
+            
+            // Add team form
+            document.getElementById('addTeamForm').addEventListener('submit', handleAddTeam);
+            
+            // Edit team form
+            document.getElementById('editTeamForm').addEventListener('submit', handleEditTeam);
+            
+            // Add player form
+            document.getElementById('addPlayerForm').addEventListener('submit', handleAddPlayer);
+            
+            // Set default user type
+            selectUserType('admin');
+        }
+
+        // Login Functions
+        function selectUserType(type) {
+            const adminBtn = document.getElementById('adminBtn');
+            const guestBtn = document.getElementById('guestBtn');
+            const adminInfo = document.getElementById('adminInfo');
+            const guestInfo = document.getElementById('guestInfo');
+            
+            if (type === 'admin') {
+                adminBtn.classList.add('active');
+                guestBtn.classList.remove('active');
+                adminInfo.style.display = 'block';
+                guestInfo.style.display = 'none';
+            } else {
+                adminBtn.classList.remove('active');
+                guestBtn.classList.add('active');
+                adminInfo.style.display = 'none';
+                guestInfo.style.display = 'block';
+            }
+            
+            appState.userType = type;
+        }
+
+        function handleLogin(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            
+            // Validate credentials
+            let isValid = false;
+            
+            if (appState.userType === 'admin') {
+                isValid = username === 'admin' && password === 'admin123';
+            } else {
+                isValid = username === 'guest' && password === 'guest123';
+            }
+            
+            if (isValid) {
+                appState.currentUser = username;
+                appState.userType = appState.userType;
+                
+                // Show main app
+                document.getElementById('loginPage').style.display = 'none';
+                document.getElementById('mainApp').style.display = 'block';
+                document.getElementById('logoutBtn').style.display = 'block';
+                
+                // Update UI based on user type
+                updateUserInterface();
+                
+                // Initialize main app
+                initializeMainApp();
+                
+                showNotification('success', `Welcome, ${username}!`);
+            } else {
+                showNotification('error', 'Invalid username or password!');
+            }
+        }
+
+        function updateUserInterface() {
+            const userBadge = document.getElementById('userBadge');
+            const currentUser = document.getElementById('currentUser');
+            
+            if (appState.userType === 'admin') {
+                userBadge.textContent = 'ADMIN';
+                userBadge.classList.remove('guest');
+                currentUser.textContent = 'Admin';
+                
+                // Show admin-only elements
+                document.querySelectorAll('.admin-only').forEach(el => {
+                    el.style.display = 'block';
+                });
+                
+                // Hide guest-only elements
+                document.querySelectorAll('.guest-only').forEach(el => {
+                    el.style.display = 'none';
+                });
+            } else {
+                userBadge.textContent = 'GUEST';
+                userBadge.classList.add('guest');
+                currentUser.textContent = 'Guest';
+                
+                // Hide admin-only elements
+                document.querySelectorAll('.admin-only').forEach(el => {
+                    el.style.display = 'none';
+                });
+                
+                // Show guest-only elements
+                document.querySelectorAll('.guest-only').forEach(el => {
+                    el.style.display = 'flex';
+                });
+            }
+        }
+
+        function initializeMainApp() {
+            // Load data
+            loadData();
+            
+            // Initialize navigation
+            initializeNavigation();
+            
+            // Render initial content
+            renderGroups();
+            renderTeams();
+            renderSchedule();
+            renderStadiums();
+            updateDashboard();
+            populateTeamSelect();
+        }
+
+        function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                // Reset app state
+                appState.currentUser = null;
+                appState.userType = null;
+                
+                // Show login page
+                document.getElementById('loginPage').style.display = 'flex';
+                document.getElementById('mainApp').style.display = 'none';
+                document.getElementById('logoutBtn').style.display = 'none';
+                
+                // Reset form
+                document.getElementById('loginForm').reset();
+                
+                showNotification('success', 'You have been logged out successfully!');
+            }
+        }
+
+        // Navigation
+        function initializeNavigation() {
+            const navLinks = document.querySelectorAll('.nav-link');
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const sectionId = this.getAttribute('data-section');
+                    if (sectionId) {
+                        showSection(sectionId);
+                    }
+                });
+            });
+        }
+
+        function showSection(sectionId) {
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.remove('active');
+            });
+            document.getElementById(sectionId).classList.add('active');
+            
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+            });
+            document.querySelector(`[data-section="${sectionId}"]`).classList.add('active');
+        }
+
+        // Data Management
+        function saveData() {
+            if (appState.userType === 'admin') {
+                localStorage.setItem('uslLeagueData', JSON.stringify(appState.leagueData));
+                showNotification('success', 'Data saved successfully!');
+            } else {
+                showNotification('error', 'You do not have permission to save data!');
+            }
+        }
+
+        function loadData() {
+            const savedData = localStorage.getItem('uslLeagueData');
+            if (savedData) {
+                appState.leagueData = JSON.parse(savedData);
+            }
+        }
+
+        // Dashboard
+        function updateDashboard() {
+            document.getElementById('totalTeams').textContent = appState.leagueData.teams.length;
+            document.getElementById('totalGroups').textContent = appState.leagueData.groups.length;
+            document.getElementById('totalMatches').textContent = appState.leagueData.matches.length;
+            document.getElementById('totalStadiums').textContent = appState.leagueData.stadiums.length;
+            
+            let totalPlayers = 0;
+            appState.leagueData.teams.forEach(team => {
+                totalPlayers += team.players.length;
+            });
+            document.getElementById('totalPlayers').textContent = totalPlayers;
+            
+            document.getElementById('tournamentPhase').textContent = appState.leagueData.knockoutStage ? 'Knockout' : 'Group';
+        }
+
+        // Groups Management
+        function renderGroups() {
+            const groupGrid = document.getElementById('groupGrid');
+            groupGrid.innerHTML = '';
+            
+            appState.leagueData.groups.forEach(group => {
+                const groupBox = document.createElement('div');
+                groupBox.className = 'group-box';
+                groupBox.innerHTML = `
+                    <h3 class="group-title">${group.name}</h3>
+                    <div class="team-slots" id="group-${group.id}">
+                        ${renderGroupTeams(group)}
+                    </div>
+                    ${appState.userType === 'admin' ? `
+                        <button class="btn btn-add btn-sm mt-3" onclick="addTeamToGroup('${group.id}')">
+                            <i class="fas fa-plus me-2"></i>Add Team
+                        </button>
+                    ` : ''}
+                `;
+                groupGrid.appendChild(groupBox);
+            });
+        }
+
+        function renderGroupTeams(group) {
+            let html = '';
+            group.teams.forEach(teamId => {
+                const team = appState.leagueData.teams.find(t => t.id === teamId);
+                if (team) {
+                    html += `
+                        <div class="team-slot" id="team-slot-${group.id}-${teamId}">
+                            <img src="${team.image}" alt="${team.name}" class="team-flag">
+                            <span class="team-name">${team.name}</span>
+                            ${appState.userType === 'admin' ? `
+                                <div class="team-actions">
+                                    <button class="btn-icon btn-edit" onclick="editTeam(${team.id})">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button class="btn-icon btn-delete" onclick="removeTeamFromGroup('${group.id}', ${teamId})">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                </div>
+                            ` : ''}
+                        </div>
+                    `;
+                }
+            });
+            return html;
+        }
+
+        function generateGroups() {
+            if (appState.userType !== 'admin') {
+                showNotification('error', 'You do not have permission to generate groups!');
+                return;
+            }
+            
+            // Shuffle teams
+            const shuffledTeams = [...appState.leagueData.teams].sort(() => Math.random() - 0.5);
+            const teamsPerGroup = Math.ceil(shuffledTeams.length / appState.leagueData.groups.length);
+            
+            appState.leagueData.groups.forEach((group, index) => {
+                group.teams = shuffledTeams.slice(index * teamsPerGroup, (index + 1) * teamsPerGroup).map(t => t.id);
+            });
+            
+            renderGroups();
+            saveData();
+            showNotification('success', 'Groups generated automatically!');
+        }
+
+        function addTeamToGroup(groupId) {
+            if (appState.userType !== 'admin') {
+                showNotification('error', 'You do not have permission to add teams to groups!');
+                return;
+            }
+            
+            const availableTeams = appState.leagueData.teams.filter(team => {
+                const inGroup = appState.leagueData.groups.some(g => 
+                    g.teams.includes(team.id) && g.id !== groupId
+                );
+                return !inGroup;
+            });
+            
+            if (availableTeams.length === 0) {
+                showNotification('error', 'No available teams to add');
+                return;
+            }
+            
+            const team = availableTeams[0];
+            const group = appState.leagueData.groups.find(g => g.id === groupId);
+            group.teams.push(team.id);
+            
+            renderGroups();
+            saveData();
+        }
+
+        function removeTeamFromGroup(groupId, teamId) {
+            if (appState.userType !== 'admin') {
+                showNotification('error', 'You do not have permission to remove teams from groups!');
+                return;
+            }
+            
+            const group = appState.leagueData.groups.find(g => g.id === groupId);
+            const index = group.teams.indexOf(teamId);
+            if (index > -1) {
+                const teamSlot = document.getElementById(`team-slot-${groupId}-${teamId}`);
+                if (teamSlot) {
+                    teamSlot.classList.add('fade-out');
+                    setTimeout(() => {
+                        group.teams.splice(index, 1);
+                        renderGroups();
+                        saveData();
+                    }, 500);
+                } else {
+                    group.teams.splice(index, 1);
+                    renderGroups();
+                    saveData();
+                }
+            }
+        }
+
+        function saveGroups() {
+            if (appState.userType === 'admin') {
+                saveData();
+                showNotification('success', 'Groups saved successfully!');
+            } else {
+                showNotification('error', 'You do not have permission to save groups!');
+            }
+        }
+
+        function resetGroups() {
+            if (appState.userType !== 'admin') {
+                showNotification('error', 'You do not have permission to reset groups!');
+                return;
+            }
+            
+            if (confirm('Are you sure you want to reset all groups?')) {
+                appState.leagueData.groups = [
+                    { id: 'A', name: 'Group A', teams: [] },
+                    { id: 'B', name: 'Group B', teams: [] },
+                    { id: 'C', name: 'Group C', teams: [] },
+                    { id: 'D', name: 'Group D', teams: [] }
+                ];
+                renderGroups();
+                saveData();
+                showNotification('success', 'Groups reset successfully!');
+            }
+        }
+
+        // Teams Management
+        function renderTeams() {
+            const teamsGrid = document.getElementById('teamsGrid');
+            teamsGrid.innerHTML = '';
+            
+            appState.leagueData.teams.forEach(team => {
+                const teamCard = document.createElement('div');
+                teamCard.className = 'col-md-4 mb-4';
+                teamCard.innerHTML = `
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <img src="${team.image}" alt="${team.name}" class="team-image">
+                            <h5>${team.name}</h5>
+                            <div class="jersey-display" style="background-image: url('${team.jersey}'); width: 100px; height: 120px; margin: 0 auto 15px;"></div>
+                            <p class="text-muted">Players: ${team.players.length}</p>
+                            ${appState.userType === 'admin' ? `
+                                <div class="d-flex justify-content-center gap-2">
+                                    <button class="btn btn-primary btn-sm" onclick="editTeam(${team.id})">
+                                        <i class="fas fa-edit"></i> Edit
+                                    </button>
+                                    <button class="btn btn-danger btn-sm" onclick="deleteTeam(${team.id})">
+                                        <i class="fas fa-trash"></i> Delete
+                                    </button>
+                                </div>
+                            ` : ''}
+                        </div>
+                    </div>
+                `;
+                teamsGrid.appendChild(teamCard);
+            });
+        }
+
+        function showAddTeamModal() {
+            if (appState.userType !== 'admin') {
+                showNotification('error', 'You do not have permission to add teams!');
+                return;
+            }
+            document.getElementById('addTeamModal').classList.add('show');
+        }
+
+        function handleAddTeam(e) {
+            e.preventDefault();
+            
+            const newTeam = {
+                id: Date.now(),
+                name: document.getElementById('newTeamName').value,
+                image: document.getElementById('newTeamImage').value || 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=300&fit=crop&auto=format',
+                jersey: document.getElementById('newTeamJersey').value || 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=150&h=180&fit=crop&auto=format',
+                password: document.getElementById('newTeamPassword').value,
+                players: []
+            };
+            
+            appState.leagueData.teams.push(newTeam);
+            renderTeams();
+            populateTeamSelect();
+            saveData();
+            closeModal('addTeamModal');
+            showNotification('success', 'Team added successfully!');
+        }
+
+        function editTeam(teamId) {
+            if (appState.userType !== 'admin') {
+                showNotification('error', 'You do not have permission to edit teams!');
+                return;
+            }
+            
+            const team = appState.leagueData.teams.find(t => t.id === teamId);
+            if (team) {
+                document.getElementById('editTeamId').value = team.id;
+                document.getElementById('editTeamName').value = team.name;
+                document.getElementById('editTeamImage').value = team.image;
+                document.getElementById('editTeamJersey').value = team.jersey;
+                document.getElementById('editTeamPassword').value = team.password;
+                document.getElementById('editTeamModal').classList.add('show');
+            }
+        }
+
+        function handleEditTeam(e) {
+            e.preventDefault();
+            
+            const teamId = parseInt(document.getElementById('editTeamId').value);
+            const team = appState.leagueData.teams.find(t => t.id === teamId);
+            
+            if (team) {
+                team.name = document.getElementById('editTeamName').value;
+                team.image = document.getElementById('editTeamImage').value;
+                team.jersey = document.getElementById('editTeamJersey').value;
+                team.password = document.getElementById('editTeamPassword').value;
+                
+                renderTeams();
+                renderGroups();
+                renderSchedule();
+                populateTeamSelect();
+                saveData();
+                closeModal('editTeamModal');
+                showNotification('success', 'Team updated successfully!');
+            }
+        }
+
+        function deleteTeam(teamId) {
+            if (appState.userType !== 'admin') {
+                showNotification('error', 'You do not have permission to delete teams!');
+                return;
+            }
+            
+            if (confirm('Are you sure you want to delete this team?')) {
+                appState.leagueData.teams = appState.leagueData.teams.filter(t => t.id !== teamId);
+                appState.leagueData.groups.forEach(group => {
+                    group.teams = group.teams.filter(id => id !== teamId);
+                });
+                
+                // Remove matches involving this team
+                appState.leagueData.matches = appState.leagueData.matches.filter(m => 
+                    m.team1 !== teamId && m.team2 !== teamId
+                );
+                
+                renderTeams();
+                renderGroups();
+                renderSchedule();
+                populateTeamSelect();
+                saveData();
+                showNotification('success', 'Team deleted successfully!');
+            }
+        }
+
+        // Schedule Management
+        function generateSchedule() {
+            if (appState.userType !== 'admin') {
+                showNotification('error', 'You do not have permission to generate schedule!');
+                return;
+            }
+            
+            appState.leagueData.matches = [];
+            let matchId = 1;
+            
+            appState.leagueData.groups.forEach(group => {
+                const teams = group.teams.map(id => appState.leagueData.teams.find(t => t.id === id));
+                
+                for (let i = 0; i < teams.length; i++) {
+                    for (let j = i + 1; j < teams.length; j++) {
+                        appState.leagueData.matches.push({
+                            id: matchId++,
+                            team1: teams[i].id,
+                            team2: teams[j].id,
+                            group: group.id,
+                            date: new Date(Date.now() + Math.random() * 30 * 24 * 60 * 60 * 1000).toLocaleDateString(),
+                            time: `${18 + Math.floor(Math.random() * 4)}:00`,
+                            stadium: appState.leagueData.stadiums[Math.floor(Math.random() * appState.leagueData.stadiums.length)].name,
+                            score1: null,
+                            score2: null
+                        });
+                    }
+                }
+            });
+            
+            renderSchedule();
+            saveData();
+            showNotification('success', 'Schedule generated successfully!');
+        }
+
+        function renderSchedule() {
+            const scheduleContainer = document.getElementById('scheduleContainer');
+            scheduleContainer.innerHTML = '';
+            
+            if (appState.leagueData.matches.length === 0) {
+                scheduleContainer.innerHTML = '<div class="text-center p-5"><i class="fas fa-calendar fa-4x text-muted mb-3"></i><p class="text-muted">No matches scheduled. Click "Generate Schedule" to create matches.</p></div>';
+                return;
+            }
+            
+            appState.leagueData.matches.forEach(match => {
+                const team1 = appState.leagueData.teams.find(t => t.id === match.team1);
+                const team2 = appState.leagueData.teams.find(t => t.id === match.team2);
+                
+                const matchCard = document.createElement('div');
+                matchCard.className = 'match-card';
+                matchCard.innerHTML = `
+                    <div class="match-header">
+                        <span class="badge bg-primary">Group ${match.group}</span>
+                        <span><i class="fas fa-calendar me-2"></i>${match.date} at ${match.time}</span>
+                        <span><i class="fas fa-map-marker-alt me-2"></i>${match.stadium}</span>
+                    </div>
+                    <div class="match-teams">
+                        <div class="match-team">
+                            <img src="${team1.image}" alt="${team1.name}" class="match-team-logo">
+                            <span>${team1.name}</span>
+                        </div>
+                        <div class="match-score">
+                            ${appState.userType === 'admin' ? `
+                                <input type="number" class="score-input" value="${match.score1 || ''}" 
+                                       onchange="updateMatchScore(${match.id}, 1, this.value)" min="0">
+                            ` : `<span>${match.score1 !== null ? match.score1 : '-'}</span>`}
+                            <span>:</span>
+                            ${appState.userType === 'admin' ? `
+                                <input type="number" class="score-input" value="${match.score2 || ''}" 
+                                       onchange="updateMatchScore(${match.id}, 2, this.value)" min="0">
+                            ` : `<span>${match.score2 !== null ? match.score2 : '-'}</span>`}
+                        </div>
+                        <div class="match-team">
+                            <span>${team2.name}</span>
+                            <img src="${team2.image}" alt="${team2.name}" class="match-team-logo">
+                        </div>
+                    </div>
+                `;
+                scheduleContainer.appendChild(matchCard);
+            });
+        }
+
+        function updateMatchScore(matchId, team, score) {
+            const match = appState.leagueData.matches.find(m => m.id === matchId);
+            if (match) {
+                if (team === 1) {
+                    match.score1 = parseInt(score) || null;
+                } else {
+                    match.score2 = parseInt(score) || null;
+                }
+                updateDashboard();
+            }
+        }
+
+        function saveSchedule() {
+            if (appState.userType === 'admin') {
+                saveData();
+                showNotification('success', 'Schedule saved successfully!');
+            } else {
+                showNotification('error', 'You do not have permission to save schedule!');
+            }
+        }
+
+        // Knockout Stage
+        function startKnockoutStage() {
+            if (appState.userType !== 'admin') {
+                showNotification('error', 'You do not have permission to start knockout stage!');
+                return;
+            }
+            
+            if (confirm('Are you sure you want to start the knockout stage? This will end the group stage.')) {
+                appState.leagueData.knockoutStage = {
+                    roundOf16: [],
+                    quarterFinals: [],
+                    semiFinals: [],
+                    final: null
+                };
+                
+                renderKnockoutBracket();
+                updateDashboard();
+                saveData();
+                showNotification('success', 'Knockout stage started!');
+            }
+        }
+
+        function renderKnockoutBracket() {
+            const knockoutBracket = document.getElementById('knockoutBracket');
+            knockoutBracket.innerHTML = `
+                <div class="tournament-bracket">
+                    <h4>Round of 16</h4>
+                    <div class="bracket-round">
+                        ${generateKnockoutMatches('roundOf16', 8)}
+                    </div>
+                </div>
+                <div class="tournament-bracket">
+                    <h4>Quarter Finals</h4>
+                    <div class="bracket-round">
+                        ${generateKnockoutMatches('quarterFinals', 4)}
+                    </div>
+                </div>
+                <div class="tournament-bracket">
+                    <h4>Semi Finals</h4>
+                    <div class="bracket-round">
+                        ${generateKnockoutMatches('semiFinals', 2)}
+                    </div>
+                </div>
+                <div class="tournament-bracket">
+                    <h4>Final</h4>
+                    <div class="bracket-round">
+                        ${generateKnockoutMatches('final', 1)}
+                    </div>
+                </div>
+            `;
+        }
+
+        function generateKnockoutMatches(round, count) {
+            let html = '';
+            for (let i = 0; i < count; i++) {
+                html += `
+                    <div class="bracket-match">
+                        <p>TBD vs TBD</p>
+                        <small>Date: TBD</small>
+                    </div>
+                `;
+            }
+            return html;
+        }
+
+        // Stadiums
+        function renderStadiums() {
+            const stadiumsGrid = document.getElementById('stadiumsGrid');
+            stadiumsGrid.innerHTML = '';
+            
+            appState.leagueData.stadiums.forEach(stadium => {
+                const stadiumCard = document.createElement('div');
+                stadiumCard.className = 'stadium-card';
+                stadiumCard.innerHTML = `
+                    <div class="stadium-name">${stadium.name}</div>
+                    <div class="stadium-capacity">
+                        <i class="fas fa-users me-2"></i>Capacity: ${stadium.capacity}
+                    </div>
+                    <div class="stadium-capacity">
+                        <i class="fas fa-map-marker-alt me-2"></i>${stadium.city}
+                    </div>
+                `;
+                stadiumsGrid.appendChild(stadiumCard);
+            });
+        }
+
+        // Team Room
+        function populateTeamSelect() {
+            const teamSelect = document.getElementById('teamSelect');
+            teamSelect.innerHTML = '<option value="">Choose your team</option>';
+            
+            appState.leagueData.teams.forEach(team => {
+                const option = document.createElement('option');
+                option.value = team.id;
+                option.textContent = team.name;
+                teamSelect.appendChild(option);
+            });
+        }
+
+        function handleTeamRoomLogin(e) {
+            e.preventDefault();
+            
+            const teamId = parseInt(document.getElementById('teamSelect').value);
+            const password = document.getElementById('teamPassword').value;
+            
+            const team = appState.leagueData.teams.find(t => t.id === teamId);
+            
+            if (team && team.password === password) {
+                appState.leagueData.currentTeam = team;
+                document.getElementById('teamLoginForm').style.display = 'none';
+                document.getElementById('teamRoomContent').style.display = 'block';
+                document.getElementById('teamRoomTitle').textContent = team.name + ' Team Room';
+                
+                // Load team data
+                loadTeamRoomData();
+                showNotification('success', 'Welcome to ' + team.name + ' Team Room!');
+            } else {
+                showNotification('error', 'Invalid team or password!');
+            }
+        }
+
+        function loadTeamRoomData() {
+            const team = appState.leagueData.currentTeam;
+            
+            // Load players
+            renderPlayers();
+            
+            // Load jersey
+            document.getElementById('jerseyDisplay').style.backgroundImage = `url('${team.jersey}')`;
+            document.getElementById('jerseyUrl').value = team.jersey;
+            
+            // Load fixtures
+            renderTeamFixtures();
+            
+            // Load stats
+            updateTeamStats();
+        }
+
+        function renderPlayers() {
+            const playersList = document.getElementById('playersList');
+            playersList.innerHTML = '';
+            
+            if (appState.leagueData.currentTeam.players.length === 0) {
+                playersList.innerHTML = '<div class="text-center p-4"><i class="fas fa-users fa-4x text-muted mb-3"></i><p class="text-muted">No players added yet.</p></div>';
+                return;
+            }
+            
+            appState.leagueData.currentTeam.players.forEach(player => {
+                const playerCard = document.createElement('div');
+                playerCard.className = 'player-card';
+                playerCard.innerHTML = `
+                    <div class="player-number">${player.number}</div>
+                    <div class="player-avatar">${player.name.substring(0, 2).toUpperCase()}</div>
+                    <div class="player-info">
+                        <div class="player-name">${player.name}</div>
+                        <div class="player-details">Age: ${player.age} | Position: ${player.position}</div>
+                    </div>
+                    ${appState.userType === 'admin' ? `
+                        <button class="btn btn-danger btn-sm" onclick="removePlayer('${player.name}')">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    ` : ''}
+                `;
+                playersList.appendChild(playerCard);
+            });
+        }
+
+        function showAddPlayerModal() {
+            if (appState.userType !== 'admin') {
+                showNotification('error', 'You do not have permission to add players!');
+                return;
+            }
+            document.getElementById('addPlayerModal').classList.add('show');
+        }
+
+        function handleAddPlayer(e) {
+            e.preventDefault();
+            
+            const newPlayer = {
+                name: document.getElementById('newPlayerName').value,
+                number: parseInt(document.getElementById('newPlayerNumber').value),
+                age: parseInt(document.getElementById('newPlayerAge').value),
+                position: document.getElementById('newPlayerPosition').value
+            };
+            
+            appState.leagueData.currentTeam.players.push(newPlayer);
+            renderPlayers();
+            saveData();
+            closeModal('addPlayerModal');
+            showNotification('success', 'Player added successfully!');
+        }
+
+        function removePlayer(playerName) {
+            if (appState.userType !== 'admin') {
+                showNotification('error', 'You do not have permission to remove players!');
+                return;
+            }
+            
+            appState.leagueData.currentTeam.players = appState.leagueData.currentTeam.players.filter(p => p.name !== playerName);
+            renderPlayers();
+            saveData();
+            showNotification('success', 'Player removed successfully!');
+        }
+
+        function renderTeamFixtures() {
+            const teamFixtures = document.getElementById('teamFixtures');
+            teamFixtures.innerHTML = '';
+            
+            const teamMatches = appState.leagueData.matches.filter(m => 
+                m.team1 === appState.leagueData.currentTeam.id || m.team2 === appState.leagueData.currentTeam.id
+            );
+            
+            if (teamMatches.length === 0) {
+                teamFixtures.innerHTML = '<div class="text-center p-4"><i class="fas fa-calendar fa-4x text-muted mb-3"></i><p class="text-muted">No fixtures available.</p></div>';
+                return;
+            }
+            
+            teamMatches.forEach(match => {
+                const team1 = appState.leagueData.teams.find(t => t.id === match.team1);
+                const team2 = appState.leagueData.teams.find(t => t.id === match.team2);
+                
+                const fixtureCard = document.createElement('div');
+                fixtureCard.className = 'match-card';
+                fixtureCard.innerHTML = `
+                    <div class="match-header">
+                        <span><i class="fas fa-calendar me-2"></i>${match.date} at ${match.time}</span>
+                        <span class="badge bg-primary">Group ${match.group}</span>
+                        <span><i class="fas fa-map-marker-alt me-2"></i>${match.stadium}</span>
+                    </div>
+                    <div class="match-teams">
+                        <div class="match-team">
+                            <img src="${team1.image}" alt="${team1.name}" class="match-team-logo">
+                            <span>${team1.name}</span>
+                        </div>
+                        <div class="match-score">
+                            <span>${match.score1 !== null ? match.score1 : '-'}</span>
+                            <span>:</span>
+                            <span>${match.score2 !== null ? match.score2 : '-'}</span>
+                        </div>
+                        <div class="match-team">
+                            <span>${team2.name}</span>
+                            <img src="${team2.image}" alt="${team2.name}" class="match-team-logo">
+                        </div>
+                    </div>
+                `;
+                teamFixtures.appendChild(fixtureCard);
+            });
+        }
+
+        function updateTeamStats() {
+            const team = appState.leagueData.currentTeam;
+            let wins = 0, draws = 0, losses = 0;
+            
+            appState.leagueData.matches.forEach(match => {
+                if (match.team1 === team.id || match.team2 === team.id) {
+                    if (match.score1 !== null && match.score2 !== null) {
+                        const isTeam1 = match.team1 === team.id;
+                        const teamScore = isTeam1 ? match.score1 : match.score2;
+                        const opponentScore = isTeam1 ? match.score2 : match.score1;
+                        
+                        if (teamScore > opponentScore) wins++;
+                        else if (teamScore === opponentScore) draws++;
+                        else losses++;
+                    }
+                }
+            });
+            
+            document.getElementById('teamWins').textContent = wins;
+            document.getElementById('teamDraws').textContent = draws;
+            document.getElementById('teamLosses').textContent = losses;
+            document.getElementById('teamPoints').textContent = (wins * 3) + draws;
+        }
+
+        function showTeamRoomTab(tabName) {
+            document.querySelectorAll('.team-room-nav button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.querySelectorAll('.team-room-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            event.target.classList.add('active');
+            document.getElementById(tabName).classList.add('active');
+        }
+
+        function updateJersey() {
+            if (appState.userType !== 'admin') {
+                showNotification('error', 'You do not have permission to update jersey!');
+                return;
+            }
+            
+            const jerseyUrl = document.getElementById('jerseyUrl').value;
+            if (jerseyUrl) {
+                appState.leagueData.currentTeam.jersey = jerseyUrl;
+                document.getElementById('jerseyDisplay').style.backgroundImage = `url('${jerseyUrl}')`;
+                saveData();
+                showNotification('success', 'Jersey updated successfully!');
+            }
+        }
+
+        function logoutTeamRoom() {
+            document.getElementById('teamLoginForm').style.display = 'block';
+            document.getElementById('teamRoomContent').style.display = 'none';
+            document.getElementById('teamRoomLoginForm').reset();
+            appState.leagueData.currentTeam = null;
+        }
+
+        // Utility Functions
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('show');
+        }
+
+        function showNotification(type, message) {
+            const notification = document.getElementById('notification');
+            const notificationMessage = notification.querySelector('.notification-message');
+            const notificationIcon = notification.querySelector('.notification-icon i');
+            
+            notificationMessage.textContent = message;
+            notification.className = 'notification ' + type;
+            
+            if (type === 'success') {
+                notificationIcon.className = 'fas fa-check-circle';
+            } else if (type === 'error') {
+                notificationIcon.className = 'fas fa-exclamation-circle';
+            } else if (type === 'info') {
+                notificationIcon.className = 'fas fa-info-circle';
+            }
+            
+            notification.style.display = 'flex';
+            
+            setTimeout(() => {
+                notification.style.display = 'none';
+            }, 4000);
+        }
+
+        function clearAllData() {
+            if (appState.userType !== 'admin') {
+                showNotification('error', 'You do not have permission to clear data!');
+                return;
+            }
+            
+            if (confirm('Are you sure you want to clear all data? This action cannot be undone!')) {
+                localStorage.removeItem('uslLeagueData');
+                location.reload();
+            }
+        }
+
+        function showAddGroupModal() {
+            if (appState.userType !== 'admin') {
+                showNotification('error', 'You do not have permission to add groups!');
+                return;
+            }
+            
+            const groupName = prompt('Enter group name:');
+            if (groupName) {
+                const newGroup = {
+                    id: String.fromCharCode(65 + appState.leagueData.groups.length),
+                    name: groupName,
+                    teams: []
+                };
+                appState.leagueData.groups.push(newGroup);
+                renderGroups();
+                saveData();
+                showNotification('success', 'Group added successfully!');
+            }
+        }
+
+        // Close modals when clicking outside
+        window.addEventListener('click', function(e) {
+            if (e.target.classList.contains('modal')) {
+                e.target.classList.remove('show');
+            }
+        });
+    </script>
+
+<script></script></body></html>
